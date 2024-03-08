@@ -8,9 +8,7 @@ import re
 import logging
 from typing import Optional, Optional, Union, Mapping, Dict, List, Any
 
-logger = logging.getLogger(name="python-Wappalyzer")
-
-class Pattern:
+class Pattern(object):
     def __init__(self, string:str, 
                  regex: Optional['re.Pattern']=None, 
                  version: Optional[str]=None, 
@@ -20,7 +18,7 @@ class Pattern:
         self.version: Optional[str] = version
         self.confidence: int = int(confidence) if confidence else 100
 
-class DomSelector:
+class DomSelector(object):
     def __init__(self, 
                  selector: str, 
                  exists: Optional[bool] = None, 
@@ -32,7 +30,7 @@ class DomSelector:
         self.attributes: Optional[Mapping[str, List['Pattern']]] = attributes
         # self.properties Not supported
 
-class Category:
+class Category(object):
     def __init__(self, name:str, 
                  groups: Optional[List[int]] = None,
                  priority: Optional[int] = None) -> None:
@@ -40,7 +38,7 @@ class Category:
         self.groups: List[int] = groups or []
         self.priority: int = priority or 0
 
-class Technology:
+class Technology(object):
     """
     A detected technology (not implied).
     """
@@ -63,7 +61,7 @@ class Technology:
 # - "text" field.
 
 # Inspired by projectdiscovery/wappalyzergo (MIT License)
-class Fingerprint:
+class Fingerprint(object):
     """
     A Fingerprint represent a single piece of information about a tech. 
     Validated, normalized and regex expressions complied.
@@ -138,7 +136,7 @@ class Fingerprint:
                         attrs['regex'] = re.compile(expression, re.I) # type: ignore
                     except re.error as err:
                         # Wappalyzer is a JavaScript application therefore some of the regex wont compile in Python.
-                        logger.debug(
+                        self.log_or_print(
                             "Caught '{error}' compiling regex: {regex}".format(
                                 error=err, regex=patterns)
                         )
@@ -200,3 +198,7 @@ class Fingerprint:
                         _prep_attr_patterns[_key] = cls._prepare_pattern(pattern)
                 selectors.append(DomSelector(cssselect, exists=_exists, text=_prep_text_patterns, attributes=_prep_attr_patterns))
         return selectors
+    
+    def log_or_print(self, msg, log_type="info"):
+        formated = "{0}".format(msg)
+        print(formated, flush=True)

@@ -3,13 +3,10 @@ Implementation of WebPage based on the standard library.
 """
 import logging
 from typing import Iterable, Mapping, Optional
-
 from html.parser import HTMLParser
 from xml.dom import minidom
 from cached_property import cached_property # type: ignore
-
 from ._common import BaseWebPage, BaseTag
-
 from dom_query import select_all # type: ignore
 
 # Parsing HTLM with built-in libraries is difficult, we should not reinvent the wheel here. 

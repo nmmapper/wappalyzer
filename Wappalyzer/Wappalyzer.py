@@ -1,4 +1,3 @@
-
 from typing import Callable, Dict, Iterable, List, Any, Mapping, Set
 import json
 import logging
@@ -7,14 +6,10 @@ import re
 import os
 import pathlib
 import requests
-
 from datetime import datetime, timedelta
 from typing import Optional
-
 from Wappalyzer.fingerprint import Fingerprint, Pattern, Technology, Category
 from Wappalyzer.webpage import WebPage, IWebPage
-
-logger = logging.getLogger(name="python-Wappalyzer")
 
 class WappalyzerError(Exception):
     # unused for now
@@ -23,7 +18,7 @@ class WappalyzerError(Exception):
     """
     pass
 
-class Wappalyzer:
+class Wappalyzer(object):
     """
     Python Wappalyzer driver.
 
@@ -118,13 +113,13 @@ class Wappalyzer:
                     if obj != defaultobj:
                         with _technologies_file.open('w', encoding='utf-8') as tfile:
                             tfile.write(lastest_technologies_file.text)
-                        logger.info("python-Wappalyzer technologies.json file updated")
+                        self.log_or_print("python-Wappalyzer technologies.json file updated")
 
                 except Exception as err: # Or loads default
-                    logger.error("Could not download latest Wappalyzer technologies.json file because of error : '{}'. Using default. ".format(err))
+                    self.log_or_print("Could not download latest Wappalyzer technologies.json file because of error : '{}'. Using default. ".format(err))
                     obj = defaultobj
             else:
-                logger.debug("python-Wappalyzer technologies.json file not updated because already updated in the last 24h")
+                self.log_or_print("python-Wappalyzer technologies.json file not updated because already updated in the last 24h")
                 with _technologies_file.open('r', encoding='utf-8') as tfile:
                     obj = json.load(tfile)
 
@@ -132,9 +127,12 @@ class Wappalyzer:
         else:
             obj = defaultobj
 
-        
         return cls(categories=obj['categories'], technologies=obj['technologies'])
-
+    
+    def log_or_print(self, msg, log_type="info"):
+        formated = "{0}".format(msg)
+        print(formated, flush=True)
+        
     @staticmethod
     def _find_files(
         env_location: List[str],
@@ -447,7 +445,7 @@ class Wappalyzer:
         """
 
         # https://docs.python.org/3/howto/sorting.html
-        class CmpToKey:
+        class CmpToKey(object):
             def __init__(self, obj, *args):
                 self.obj = obj
 
