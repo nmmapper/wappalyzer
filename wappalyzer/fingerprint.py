@@ -136,7 +136,7 @@ class Fingerprint(object):
                         attrs['regex'] = re.compile(expression, re.I) # type: ignore
                     except re.error as err:
                         # Wappalyzer is a JavaScript application therefore some of the regex wont compile in Python.
-                        self.log_or_print(
+                        cls.log_or_print(
                             "Caught '{error}' compiling regex: {regex}".format(
                                 error=err, regex=patterns)
                         )
@@ -199,6 +199,6 @@ class Fingerprint(object):
                 selectors.append(DomSelector(cssselect, exists=_exists, text=_prep_text_patterns, attributes=_prep_attr_patterns))
         return selectors
     
-    def log_or_print(self, msg, log_type="info"):
+    def log_or_print(msg, log_type="info"):
         formated = "{0}".format(msg)
         print(formated, flush=True)

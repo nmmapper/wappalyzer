@@ -8,8 +8,10 @@ import pathlib
 import requests
 from datetime import datetime, timedelta
 from typing import Optional
-from Wappalyzer.fingerprint import Fingerprint, Pattern, Technology, Category
-from Wappalyzer.webpage import WebPage, IWebPage
+from fingerprint import Fingerprint, Pattern, Technology, Category
+from webpage import WebPage, IWebPage
+from string import ascii_lowercase as letters
+
 
 class WappalyzerError(Exception):
     # unused for now
@@ -92,7 +94,7 @@ class Wappalyzer(object):
         elif update:
             should_update = True
             _technologies_file: pathlib.Path
-            _files = cls._find_files(['HOME', 'APPDATA',], ['.python-Wappalyzer/technologies.json'])
+            _files = cls._find_files(['HOME', 'APPDATA',], ['.python-wappalyzer/technologies.json'])
             if _files:
                 _technologies_file = pathlib.Path(_files[0])
                 last_modification_time = datetime.fromtimestamp(_technologies_file.stat().st_mtime)
@@ -102,34 +104,57 @@ class Wappalyzer(object):
             # Get the lastest file
             if should_update:
                 try:
-                    lastest_technologies_file=requests.get('https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/technologies.json')
-                    obj = lastest_technologies_file.json()
+                    obj = {}
+                    for letter in list(letters):
+                        tech_file_name = f'data/technologies/{letter}.json'
+
+                        if not pathlib.Path(tech_file_name).is_file():
+                            continue
+
+                        with open(tech_file_name) as techfile:
+                            content = json.load(techfile)
+                            obj = {**obj, **content}
+
+                    # get categories file
+                    cat = {}
+                    cat_file_name = f'data/categories.json';
+                    if pathlib.Path(cat_file_name).is_file():
+                        with open(cat_file_name) as catfile:
+                            cat = json.load(catfile)
+
+                    obj = {'technologies': obj, 'categories': cat}
+
+                    # lastest_technologies_file=requests.get('https://raw.githubusercontent.com/AliasIO/wappalyzer/master/src/technologies.json')
+                    # obj = lastest_technologies_file.json()
+                    
                     _technologies_file = pathlib.Path(cls._find_files(
                         ['HOME', 'APPDATA',],
-                        ['.python-Wappalyzer/technologies.json'],
+                        ['.python-wappalyzer/technologies.json'],
                         create = True
                         ).pop())
                     
                     if obj != defaultobj:
                         with _technologies_file.open('w', encoding='utf-8') as tfile:
-                            tfile.write(lastest_technologies_file.text)
-                        self.log_or_print("python-Wappalyzer technologies.json file updated")
+                            tfile.write(json.dumps(obj))
+                        cls.log_or_print("python-wappalyzer technologies.json file updated")
+
+                    print('finished updating')
 
                 except Exception as err: # Or loads default
-                    self.log_or_print("Could not download latest Wappalyzer technologies.json file because of error : '{}'. Using default. ".format(err))
+                    cls.log_or_print("Could not update latest Wappalyzer technologies.json file because of error : '{}'. Using default. ".format(err))
                     obj = defaultobj
             else:
-                self.log_or_print("python-Wappalyzer technologies.json file not updated because already updated in the last 24h")
+                cls.log_or_print("python-wappalyzer technologies.json file not updated because already updated in the last 24h")
                 with _technologies_file.open('r', encoding='utf-8') as tfile:
                     obj = json.load(tfile)
 
-            logger.info("Using technologies.json file at {}".format(_technologies_file.as_posix()))
+            cls.log_or_print("Using technologies.json file at {}".format(_technologies_file.as_posix()))
         else:
             obj = defaultobj
 
         return cls(categories=obj['categories'], technologies=obj['technologies'])
     
-    def log_or_print(self, msg, log_type="info"):
+    def log_or_print(msg, log_type="info"):
         formated = "{0}".format(msg)
         print(formated, flush=True)
         
