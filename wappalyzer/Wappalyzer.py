@@ -1,6 +1,5 @@
 from typing import Callable, Dict, Iterable, List, Any, Mapping, Set
 import json
-import logging
 import pkg_resources
 import re
 import os
@@ -8,8 +7,8 @@ import pathlib
 import requests
 from datetime import datetime, timedelta
 from typing import Optional
-from fingerprint import Fingerprint, Pattern, Technology, Category
-from webpage import WebPage, IWebPage
+from wappalyzer.fingerprint import Fingerprint, Pattern, Technology, Category
+from wappalyzer.webpage import WebPage, IWebPage
 from string import ascii_lowercase as letters
 
 
@@ -91,6 +90,7 @@ class Wappalyzer(object):
         if technologies_file:
             with open(technologies_file, 'r', encoding='utf-8') as fd:
                 obj = json.load(fd)
+                
         elif update:
             should_update = True
             _technologies_file: pathlib.Path
