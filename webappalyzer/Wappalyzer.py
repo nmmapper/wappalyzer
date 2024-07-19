@@ -7,13 +7,13 @@ import pathlib
 import requests
 from datetime import datetime, timedelta
 from typing import Optional
-from wappalyzer.fingerprint import Fingerprint, Pattern, Technology, Category
-from wappalyzer.webpage._common import IWebPage, ITag
+from webappalyzer.fingerprint import Fingerprint, Pattern, Technology, Category
+from webappalyzer.webpage._common import IWebPage, ITag
 try:
-    from wappalyzer.webpage._bs4 import WebPage
+    from webappalyzer.webpage._bs4 import WebPage
 except Exception:
     try:
-        from wappalyzer.webpage._stdlib import WebPage # type: ignore
+        from webappalyzer.webpage._stdlib import WebPage # type: ignore
     except Exception as e:
         raise ImportError(
         """Cannot use Wappalyzer, missing required parser libraries.

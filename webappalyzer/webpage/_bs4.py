@@ -4,7 +4,7 @@ Implementation of WebPage based on bs4, depends on lxml.
 from typing import Iterator, Mapping
 import lxml # type: ignore 
 from bs4 import BeautifulSoup, Tag as bs4_Tag # type: ignore
-from wappalyzer.webpage._common import BaseWebPage, BaseTag
+from ._common import BaseWebPage, BaseTag
 
 class Tag(BaseTag):
 
