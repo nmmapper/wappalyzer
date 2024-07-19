@@ -61,7 +61,7 @@ detected technologies.
 ```
 ## Making asynchronous calls
 
-```
+```py
 from webappalyzer.webpage._bs4 import WebPage
 from webappalyzer.Wappalyzer import Wappalyzer
 import aiohttp
