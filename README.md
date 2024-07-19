@@ -1,5 +1,5 @@
 
-# python3-webappalyzer
+# python3-wappalyzer
 
 [![image](https://travis-ci.org/chorsley/python-Wappalyzer.svg?branch=master)](https://travis-ci.org/chorsley/python-Wappalyzer)
 
@@ -11,7 +11,7 @@ Python implementation of the Wappalyzer web application detection utility.
 
 # Install
 
-    $ pip install python3-wappalyzer
+    $ pip install python3-webappalyzer
 
 Require Python3.6 or later.
 
@@ -20,8 +20,8 @@ Require Python3.6 or later.
 The API exposes two objects: `Wappalyzer.Wappalyzer` and
 `Wappalyzer.WebPage`.
 ```py
->>> from wappalyzer.Wappalyzer import Wappalyzer
->>> from wappalyzer.webpage._bs4 import WebPage
+>>> from webappalyzer.Wappalyzer import Wappalyzer
+>>> from webappalyzer.webpage._bs4 import WebPage
 ```
 First create a WebPage. The following code creates a webpage with the
 `request` module.
@@ -61,9 +61,9 @@ detected technologies.
 ```
 ## Making asynchronous calls
 
-```py
-from wappalyzer.webpage._bs4 import WebPage
-from wappalyzer.Wappalyzer import Wappalyzer
+```
+from webappalyzer.webpage._bs4 import WebPage
+from webappalyzer.Wappalyzer import Wappalyzer
 import aiohttp
 
 async with aiohttp.ClientSession() as session:
