@@ -9,7 +9,6 @@ try:
     from typing import Protocol
 except ImportError:
     Protocol = object # type: ignore
-
 import aiohttp
 import requests
 from requests.structures import CaseInsensitiveDict

@@ -8,9 +8,19 @@ import requests
 from datetime import datetime, timedelta
 from typing import Optional
 from wappalyzer.fingerprint import Fingerprint, Pattern, Technology, Category
-from wappalyzer.webpage import WebPage, IWebPage
+from wappalyzer.webpage._common import IWebPage, ITag
+try:
+    from wappalyzer.webpage._bs4 import WebPage
+except Exception:
+    try:
+        from wappalyzer.webpage._stdlib import WebPage # type: ignore
+    except Exception as e:
+        raise ImportError(
+        """Cannot use Wappalyzer, missing required parser libraries.
+        You can either install 'lxml' and 'beatifulsoup4' OR install 'dom_query'. 
+        The later option makes Wappalyzer use the standard library HTML parser.""")
+        
 from string import ascii_lowercase as letters
-
 
 class WappalyzerError(Exception):
     # unused for now
@@ -94,7 +104,7 @@ class Wappalyzer(object):
         elif update:
             should_update = True
             _technologies_file: pathlib.Path
-            _files = cls._find_files(['HOME', 'APPDATA',], ['.python-wappalyzer/technologies.json'])
+            _files = cls._find_files(['HOME', 'APPDATA',], ['.python3-wappalyzer/technologies.json'])
             if _files:
                 _technologies_file = pathlib.Path(_files[0])
                 last_modification_time = datetime.fromtimestamp(_technologies_file.stat().st_mtime)
@@ -129,7 +139,7 @@ class Wappalyzer(object):
                     
                     _technologies_file = pathlib.Path(cls._find_files(
                         ['HOME', 'APPDATA',],
-                        ['.python-wappalyzer/technologies.json'],
+                        ['.python3-wappalyzer/technologies.json'],
                         create = True
                         ).pop())
                     
@@ -248,7 +258,7 @@ class Wappalyzer(object):
                     has_tech = True
                 if selector.text:
                     for pattern in selector.text:
-                        if pattern.regex.search(item.inner_html):
+                        if pattern.regex.search(item.inner_html()):
                             self._set_detected_app(webpage.url, tech_fingerprint, 'dom', pattern, value=item.inner_html)
                             has_tech = True
                 if selector.attributes:

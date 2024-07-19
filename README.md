@@ -1,5 +1,4 @@
 
-
 # python3-wappalyzer
 
 [![image](https://travis-ci.org/chorsley/python-Wappalyzer.svg?branch=master)](https://travis-ci.org/chorsley/python-Wappalyzer)
@@ -21,7 +20,8 @@ Require Python3.6 or later.
 The API exposes two objects: `Wappalyzer.Wappalyzer` and
 `Wappalyzer.WebPage`.
 ```py
->>> from wappalyzer import Wappalyzer, WebPage
+>>> from wappalyzer.Wappalyzer import Wappalyzer
+>>> from wappalyzer.webpage._bs4 import WebPage
 ```
 First create a WebPage. The following code creates a webpage with the
 `request` module.
@@ -58,4 +58,17 @@ detected technologies.
 >>> wappalyzer.analyze_with_versions_and_categories(webpage) 
 {'FontAwesome': {'categories': ['Font scripts'], 'versions': ['5.4.2']}, 'Google Font API': {'categories': ['Fontscripts'], 'versions': []}, 'MySQL': {'categories':['Databases'], 'versions': []}, 'Nginx': {'categories':['Web servers', 'Reverse proxies'], 'versions': []}, 'PHP':
 {'categories': ['Programming languages'], 'versions':['5.6.40']}, 'WordPress': {'categories': ['CMS', 'Blogs'],'versions': ['5.4.2']}, 'Yoast SEO': {'categories':['SEO'], 'versions': ['14.6.1']}}
+```
+## Making asynchronous calls
+
+```
+from wappalyzer.webpage._bs4 import WebPage
+from wappalyzer.Wappalyzer import Wappalyzer
+import aiohttp
+
+async with aiohttp.ClientSession() as session:
+    page = await WebPage.new_from_url_async("https://yourdomain-here.com/", aiohttp_client_session=session)
+
+wappalyzer = Wappalyzer.latest()
+wappalyzer.analyze_with_versions_and_categories(page)
 ```

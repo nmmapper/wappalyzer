@@ -5,7 +5,6 @@ import logging
 from typing import Iterable, Mapping, Optional
 from html.parser import HTMLParser
 from xml.dom import minidom
-from cached_property import cached_property # type: ignore
 from ._common import BaseWebPage, BaseTag
 from dom_query import select_all # type: ignore
 
@@ -19,7 +18,6 @@ class Tag(BaseTag):
         super().__init__(name, attributes)
         self._elem = elem
     
-    @cached_property
     def inner_html(self) -> str:
         return ''.join(d.toxml() for d in self._elem.childNodes)
 
@@ -54,7 +52,6 @@ class WebPage(BaseWebPage):
         self.scripts.extend(script_meta_parser.script_src)
         self.meta = script_meta_parser.meta_info
     
-    @cached_property
     def _dom(self) -> Optional[minidom.Document]:
         try:
             dom = minidom.parseString(self.html)

@@ -2,12 +2,9 @@
 Implementation of WebPage based on bs4, depends on lxml.
 """
 from typing import Iterator, Mapping
-#Just to check if it's available
 import lxml # type: ignore 
 from bs4 import BeautifulSoup, Tag as bs4_Tag # type: ignore
-from cached_property import cached_property # type: ignore
-
-from ._common import BaseWebPage, BaseTag
+from wappalyzer.webpage._common import BaseWebPage, BaseTag
 
 class Tag(BaseTag):
 
@@ -15,7 +12,6 @@ class Tag(BaseTag):
         super().__init__(name, attributes)
         self._soup = soup
     
-    @cached_property
     def inner_html(self) -> str:
         return self._soup.decode_contents()
 

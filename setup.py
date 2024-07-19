@@ -1,34 +1,32 @@
-from setuptools import setup, find_packages
-import pathlib
+import setuptools
 
-setup(
-    name                =   "python-Wappalyzer",
-    version             =   "0.4.0",
-    description         =   "Python implementation of the Wappalyzer web application "
-                            "detection utility",
-    long_description    =   (pathlib.Path(__file__).parent / "README.rst").read_text(),
-    long_description_content_type   =   "text/markdown",
-    author              =   "Chris Horsley (chorsley) and other contributors (See git history)",
-    url                 =   "https://github.com/chorsley/python-Wappalyzer",
-    classifiers         =   [
-                                'Development Status :: 3 - Alpha',
-                                'Intended Audience :: Developers',
-                                'License :: OSI Approved :: GNU General Public License v3 (GPLv3)',
-                                'Programming Language :: Python :: 3',
-                                'Topic :: Internet :: WWW/HTTP',
-                            ],
-    packages            =   find_packages(exclude='tests'),
-    package_data        =   {'Wappalyzer': ['data/technologies.json']},
-    install_requires    =   [   'beautifulsoup4', 
-                                'lxml',
-                                'requests',
-                                'aiohttp',
-                                'cached_property', ],
-    extras_require      =   {
-                             # Pin pydoctor version until https://github.com/twisted/pydoctor/issues/513 is fixed
-                             'docs': ["pydoctor==21.2.2", "docutils"], 
-                             'dev': ["tox", "mypy>=0.902", "httpretty", "pytest", "pytest-asyncio", 
-                                     "types-requests", "types-pkg_resources", "aioresponses"]
-                            },
-    python_requires     =   '>=3.6',
+print(setuptools.find_packages())
+with open("README.md", "r") as fh:
+    long_description = fh.read()
+
+setuptools.setup(
+    name="python3-wappalyzer", 
+    version="1.1.1",
+    author="nmmapper",
+    author_email="info@nmmapper.com",
+    description="Python implementation of the Wappalyzer web application detection utility.",
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/nmmapper/wappalyzer",
+    project_urls={
+        'Documentation': 'https://github.com/nmmapper/wappalyzer',
+        'How it is used': 'https://www.nmmapper.com/sys/cms-detection/wappalyzer-online/',
+        'Homepage': 'https://github.com/nmmapper/wappalyzer',
+        'Source': 'https://github.com/nmmapper/wappalyzer',
+    },
+    include_package_data=True,
+    packages=setuptools.find_packages(),
+    package_data        =   {'wappalyzer': ['data/technologies.json']},
+    classifiers=[
+        "Programming Language :: Python :: 3",
+        "Operating System :: OS Independent",
+    ],
+    python_requires='>=3.6',
+    setup_requires=['wheel'],
+    install_requires=['beautifulsoup4', 'lxml', 'cached_property', 'requests', 'aiohttp','dom_query'],
 )
