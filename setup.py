@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="python3-wappalyzer", 
+    name="python3-webappalyzer", 
     version="1.1.1",
     author="nmmapper",
     author_email="info@nmmapper.com",
@@ -21,7 +21,7 @@ setuptools.setup(
     },
     include_package_data=True,
     packages=setuptools.find_packages(),
-    package_data        =   {'wappalyzer': ['data/technologies.json']},
+    package_data        =   {'webappalyzer': ['data/technologies.json']},
     classifiers=[
         "Programming Language :: Python :: 3",
         "Operating System :: OS Independent",

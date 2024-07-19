@@ -1,5 +1,5 @@
 
-# python3-wappalyzer
+# python3-webappalyzer
 
 [![image](https://travis-ci.org/chorsley/python-Wappalyzer.svg?branch=master)](https://travis-ci.org/chorsley/python-Wappalyzer)
 
