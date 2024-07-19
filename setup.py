@@ -6,7 +6,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="python3-webappalyzer", 
-    version="1.1.1",
+    version="1.1.2",
     author="nmmapper",
     author_email="info@nmmapper.com",
     description="Python implementation of the Wappalyzer web application detection utility.",

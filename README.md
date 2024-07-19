@@ -1,11 +1,9 @@
 
 # python3-wappalyzer
 
-[![image](https://travis-ci.org/chorsley/python-Wappalyzer.svg?branch=master)](https://travis-ci.org/chorsley/python-Wappalyzer)
 
-[![image](https://badge.fury.io/py/python-Wappalyzer.svg)](https://pypi.org/project/python-wappalyzer/)
+[![image](https://badge.fury.io/py/python-Wappalyzer.svg)](https://pypi.org/project/python3-webappalyzer/)
 
-[![image](https://coveralls.io/repos/github/chorsley/python-Wappalyzer/badge.svg?branch=master)](https://coveralls.io/github/chorsley/python-Wappalyzer?branch=master)
 
 Python implementation of the Wappalyzer web application detection utility.
 
